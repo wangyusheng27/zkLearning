@@ -22,6 +22,7 @@ public class Executor implements Watcher, Runnable, DataMonitor.DataMonitorListe
         this.filename = filename;
         this.exec = exec;
         zk = new ZooKeeper(hostPort, 3000, this);
+        System.out.println("step 5");
         dm = new DataMonitor(zk, znode, null, this);
     }
 
@@ -33,7 +34,7 @@ public class Executor implements Watcher, Runnable, DataMonitor.DataMonitorListe
         String exec[] =  { "cmd", "/c"};
         int i = 1;
         try {
-            new Executor(hostPort, znode, filename, exec).run();
+            new Thread(new Executor(hostPort, znode, filename, exec)).start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,9 +53,11 @@ public class Executor implements Watcher, Runnable, DataMonitor.DataMonitorListe
     }
 
     public void process(WatchedEvent watchedEvent) {
+        System.out.println("step 0");
         dm.process(watchedEvent);
     }
 
+    //implements from DataMonitorListener
     public void exists( byte[] data ) {
         if (data == null) {
             if (child != null) {
@@ -93,7 +96,7 @@ public class Executor implements Watcher, Runnable, DataMonitor.DataMonitorListe
             }
         }
     }
-
+    //implements from DataMonitorListener
     public void closing(int rc) {
         synchronized (this) {
             notifyAll();

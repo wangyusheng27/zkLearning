@@ -16,7 +16,21 @@ public class DataMonitor implements Watcher, AsyncCallback.StatCallback{
     boolean dead;
     byte prevData[];
 
+    public DataMonitor(ZooKeeper zk, String znode, Watcher chainedWatcher,
+                       DataMonitorListener listener) {
+        this.zk = zk;
+        this.znode = znode;
+        this.chainedWatcher = chainedWatcher;
+        this.listener = listener;
+
+        // Get things started by checking if the node exists. We are going
+        // to be completely event driven
+        zk.exists(znode, true, this, null);
+    }
+
+    //implements from AsyncCallback.StatCallback
     public void processResult(int rc, String path, Object ctx, Stat stat) {
+        System.out.println("step -1");
         boolean exists;
         switch (rc) {
             case Code.Ok:
@@ -24,6 +38,7 @@ public class DataMonitor implements Watcher, AsyncCallback.StatCallback{
                 break;
             case Code.NoNode:
                 exists = false;
+                System.out.println("error no node");
                 break;
             case Code.SessionExpired:
             case Code.NoAuth:
@@ -48,6 +63,9 @@ public class DataMonitor implements Watcher, AsyncCallback.StatCallback{
                 return;
             }
         }
+        System.out.println("node exist b=" + b);
+        System.out.println("step 2");
+
         if ((b == null && b != prevData)
                 || (b != null && !Arrays.equals(prevData, b))) {
             listener.exists(b);
@@ -55,8 +73,13 @@ public class DataMonitor implements Watcher, AsyncCallback.StatCallback{
         }
     }
 
+    //implements from Watcher
     public void process(WatchedEvent watchedEvent) {
+        System.out.println("step 1");
         String path = watchedEvent.getPath();
+        System.out.println("path" + path);
+        System.out.println("type" + watchedEvent.getType());
+        System.out.println("getState" + watchedEvent.getState());
         if (watchedEvent.getType() == Event.EventType.None){
             switch (watchedEvent.getState()) {
                 case SyncConnected:
@@ -73,6 +96,7 @@ public class DataMonitor implements Watcher, AsyncCallback.StatCallback{
             }
         }else {
             if (path != null && path.equals(znode)){
+                System.out.println("step 3");
                 zk.exists(znode, true, this, null);
             }
         }
@@ -96,15 +120,5 @@ public class DataMonitor implements Watcher, AsyncCallback.StatCallback{
         void closing(int rc);
     }
 
-    public DataMonitor(ZooKeeper zk, String znode, Watcher chainedWatcher,
-                       DataMonitorListener listener) {
-        this.zk = zk;
-        this.znode = znode;
-        this.chainedWatcher = chainedWatcher;
-        this.listener = listener;
 
-        // Get things started by checking if the node exists. We are going
-        // to be completely event driven
-        zk.exists(znode, true, this, null);
-    }
 }
