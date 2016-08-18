@@ -31,6 +31,7 @@ public class Executor implements Watcher, Runnable, DataMonitor.DataMonitorListe
         String znode = "/idea";
         String filename="D:/1.txt";
         String exec[] =  { "cmd", "/c"};
+        int i = 1;
         try {
             new Executor(hostPort, znode, filename, exec).run();
         } catch (Exception e) {
