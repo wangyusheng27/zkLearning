@@ -19,6 +19,7 @@ public class Executor implements Watcher, Runnable, DataMonitor.DataMonitorListe
         this.exec = exec;
         zk = new ZooKeeper(hostPort, 3000, this);
         dm = new DataMonitor(zk, znode, null, this);
+        int i = 1;
     }
 
     public void run() {
