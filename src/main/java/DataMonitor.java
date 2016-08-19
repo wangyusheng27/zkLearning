@@ -31,6 +31,7 @@ public class DataMonitor implements Watcher, AsyncCallback.StatCallback{
     //implements from AsyncCallback.StatCallback
     public void processResult(int rc, String path, Object ctx, Stat stat) {
         System.out.println("step -1");
+        System.out.println("rc={}, path={}, ctx={}, stat={}" + rc +","+ path +","+ ctx +","+ stat);
         boolean exists;
         switch (rc) {
             case Code.Ok:
@@ -77,9 +78,9 @@ public class DataMonitor implements Watcher, AsyncCallback.StatCallback{
     public void process(WatchedEvent watchedEvent) {
         System.out.println("step 1");
         String path = watchedEvent.getPath();
-        System.out.println("path" + path);
-        System.out.println("type" + watchedEvent.getType());
-        System.out.println("getState" + watchedEvent.getState());
+        System.out.println("path:" + path);
+        System.out.println("type:" + watchedEvent.getType());
+        System.out.println("getState:" + watchedEvent.getState());
         if (watchedEvent.getType() == Event.EventType.None){
             switch (watchedEvent.getState()) {
                 case SyncConnected:
