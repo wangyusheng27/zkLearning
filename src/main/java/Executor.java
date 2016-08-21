@@ -28,7 +28,7 @@ public class Executor implements Watcher, Runnable, DataMonitor.DataMonitorListe
 
     public static void main(String[] args) {
 
-        String hostPort = "192.168.1.23:2181";
+        String hostPort = "192.168.1.24:2181";
         String znode = "/idea";
         String filename="D:/1.txt";
         String exec[] =  { "cmd", "/c"};
