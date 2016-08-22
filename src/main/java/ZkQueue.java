@@ -70,7 +70,7 @@ public class ZkQueue extends SyncPrimitive{
     }
 
     public static void main(String args[]){
-        String address = "192.168.1.24:2181";
+        String address = "10.235.100.22:2181";
         ZkQueue q = new ZkQueue(address, "/app1");
 
         System.out.println("Input: " + address);
