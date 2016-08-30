@@ -1,3 +1,4 @@
+import org.apache.log4j.Logger;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
@@ -17,6 +18,7 @@ public class Executor implements Watcher, Runnable, DataMonitor.DataMonitorListe
     ZooKeeper zk;
     DataMonitor dm;
     Process child;
+    static Logger logger = Logger.getLogger(Executor.class);
     public Executor(String hostPort, String znode, String filename,
                     String exec[]) throws KeeperException, IOException {
         this.filename = filename;
@@ -27,7 +29,7 @@ public class Executor implements Watcher, Runnable, DataMonitor.DataMonitorListe
     }
 
     public static void main(String[] args) {
-
+        logger.info("sdfdsf");
         String hostPort = "10.235.100.22:2181";
         String znode = "/idea";
         String filename="D:/1.txt";
