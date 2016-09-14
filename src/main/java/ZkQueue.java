@@ -2,6 +2,7 @@ import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.data.Stat;
+import utils.ZkLearningUtils;
 
 import java.nio.ByteBuffer;
 import java.util.List;
@@ -70,7 +71,7 @@ public class ZkQueue extends SyncPrimitive{
     }
 
     public static void main(String args[]){
-        String address = "10.235.100.22:2181";
+        String address = ZkLearningUtils.zkServerHost;
         ZkQueue q = new ZkQueue(address, "/app1");
 
         System.out.println("Input: " + address);

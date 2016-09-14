@@ -1,5 +1,6 @@
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
+import utils.ZkLearningUtils;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -143,7 +144,7 @@ public class AsynMaster implements Watcher, Runnable {
         int masterCount = 3;
         ExecutorService service = Executors.newFixedThreadPool(masterCount);
         for (int i = 0; i < masterCount; i++) {
-            AsynMaster master = new AsynMaster("localhost:2181", "o2-" + i);
+            AsynMaster master = new AsynMaster(ZkLearningUtils.zkServerHost, "o2-" + i);
             service.submit(master);
         }
 

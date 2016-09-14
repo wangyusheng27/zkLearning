@@ -24,13 +24,12 @@ public class Executor implements Watcher, Runnable, DataMonitor.DataMonitorListe
         this.filename = filename;
         this.exec = exec;
         zk = new ZooKeeper(hostPort, 3000, this);
-        System.out.println("step 5");
         dm = new DataMonitor(zk, znode, null, this);
     }
 
     public static void main(String[] args) {
         logger.info("sdfdsf");
-        String hostPort = "10.235.100.22:2181";
+        String hostPort = "10.235.100.17:2181";
         String znode = "/idea";
         String filename="D:/1.txt";
         String exec[] =  { "cmd", "/c"};

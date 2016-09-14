@@ -1,5 +1,6 @@
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
+import utils.ZkLearningUtils;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -25,7 +26,7 @@ public class Master implements Watcher, Runnable {
     }
 
     public void process(WatchedEvent event) {
-        System.out.println(event);
+        System.out.println("abc + " + event);
     }
 
     public void startZK() {
@@ -115,9 +116,9 @@ public class Master implements Watcher, Runnable {
         int masterCount = 3;
         ExecutorService service = Executors.newFixedThreadPool(masterCount);
         for (int i = 0; i < masterCount; i++) {
-            Master master = new Master("10.235.100.22:2181", "o2-" + i);
+            Master master = new Master(ZkLearningUtils.zkServerHost, "o2-" + i);
             service.submit(master);
         }
-
+        service.shutdown();
     }
 }
